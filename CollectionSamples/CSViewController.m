@@ -7,7 +7,6 @@
 //
 
 #import "CSBasicsSample.h"
-#import "CSSample.h"
 
 #import "CurrentSample.h"
 
@@ -21,7 +20,7 @@
 
 - (IBAction)runSampleTapped
 {
-    CSSample *activeSample = [CSSample instanceForSample:[CURRENT_SAMPLE class]];
+    id<CSSample> activeSample = [CSSample instanceForSample:[CURRENT_SAMPLE class]];
     [activeSample run];
 }
 

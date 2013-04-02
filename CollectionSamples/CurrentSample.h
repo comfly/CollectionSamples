@@ -9,6 +9,6 @@
 #ifndef CollectionSamples_CurrentSample_h
 #define CollectionSamples_CurrentSample_h
 
-#define CURRENT_SAMPLE CSBasicsSample
+#define CURRENT_SAMPLE CSNewCollectionsSample
 
 #endif

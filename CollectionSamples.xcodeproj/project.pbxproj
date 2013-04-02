@@ -20,6 +20,9 @@
 		10D4CC691709D0C500D7AF60 /* CSViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10D4CC671709D0C500D7AF60 /* CSViewController.xib */; };
 		10D4CC721709D4EE00D7AF60 /* CSBasicsSample.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D4CC711709D4EE00D7AF60 /* CSBasicsSample.m */; };
 		10D4CC761709D59400D7AF60 /* CSSample.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D4CC751709D59400D7AF60 /* CSSample.m */; };
+		4744B38ED4AB80DE16E79CB5 /* CSKVCSample.m in Sources */ = {isa = PBXBuildFile; fileRef = 4744BF58276302AB83F65B1D /* CSKVCSample.m */; };
+		4744B39A7F42FC5BF02E9EEE /* CSCoreFoundationSample.m in Sources */ = {isa = PBXBuildFile; fileRef = 4744B6A549532E0F2FC6A30F /* CSCoreFoundationSample.m */; };
+		4744B8CFAAF6F4B37B6FF0E5 /* CSNewCollectionsSample.m in Sources */ = {isa = PBXBuildFile; fileRef = 4744BC137709A131B5A816D9 /* CSNewCollectionsSample.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +47,13 @@
 		10D4CC731709D4FC00D7AF60 /* CSSample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CSSample.h; path = Samples/CSSample.h; sourceTree = "<group>"; };
 		10D4CC741709D52200D7AF60 /* CurrentSample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CurrentSample.h; sourceTree = "<group>"; };
 		10D4CC751709D59400D7AF60 /* CSSample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CSSample.m; path = Samples/CSSample.m; sourceTree = "<group>"; };
+		4744B09FD0395AF47749CEA3 /* CSKVCSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSKVCSample.h; path = Samples/CSKVCSample.h; sourceTree = "<group>"; };
+		4744B1AF1F930D7D126F1E41 /* CSNewCollectionsSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSNewCollectionsSample.h; path = Samples/CSNewCollectionsSample.h; sourceTree = "<group>"; };
+		4744B6A549532E0F2FC6A30F /* CSCoreFoundationSample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CSCoreFoundationSample.m; path = Samples/CSCoreFoundationSample.m; sourceTree = "<group>"; };
+		4744BC137709A131B5A816D9 /* CSNewCollectionsSample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CSNewCollectionsSample.m; path = Samples/CSNewCollectionsSample.m; sourceTree = "<group>"; };
+		4744BCAD23B57511C4ADB228 /* CSCoreFoundationSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSCoreFoundationSample.h; path = Samples/CSCoreFoundationSample.h; sourceTree = "<group>"; };
+		4744BE82CA73A1427601CF94 /* CSAllSamples.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSAllSamples.h; path = Samples/CSAllSamples.h; sourceTree = "<group>"; };
+		4744BF58276302AB83F65B1D /* CSKVCSample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CSKVCSample.m; path = Samples/CSKVCSample.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +133,13 @@
 				10D4CC751709D59400D7AF60 /* CSSample.m */,
 				10D4CC701709D4EE00D7AF60 /* CSBasicsSample.h */,
 				10D4CC711709D4EE00D7AF60 /* CSBasicsSample.m */,
+				4744BC137709A131B5A816D9 /* CSNewCollectionsSample.m */,
+				4744B1AF1F930D7D126F1E41 /* CSNewCollectionsSample.h */,
+				4744B6A549532E0F2FC6A30F /* CSCoreFoundationSample.m */,
+				4744BCAD23B57511C4ADB228 /* CSCoreFoundationSample.h */,
+				4744BF58276302AB83F65B1D /* CSKVCSample.m */,
+				4744B09FD0395AF47749CEA3 /* CSKVCSample.h */,
+				4744BE82CA73A1427601CF94 /* CSAllSamples.h */,
 			);
 			name = Samples;
 			sourceTree = "<group>";
@@ -199,6 +216,9 @@
 				10D4CC661709D0C500D7AF60 /* CSViewController.m in Sources */,
 				10D4CC721709D4EE00D7AF60 /* CSBasicsSample.m in Sources */,
 				10D4CC761709D59400D7AF60 /* CSSample.m in Sources */,
+				4744B8CFAAF6F4B37B6FF0E5 /* CSNewCollectionsSample.m in Sources */,
+				4744B39A7F42FC5BF02E9EEE /* CSCoreFoundationSample.m in Sources */,
+				4744B38ED4AB80DE16E79CB5 /* CSKVCSample.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CSSample.h"
+
 
 @interface CSBasicsSample : CSSample
 

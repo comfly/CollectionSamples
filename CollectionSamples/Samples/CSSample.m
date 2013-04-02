@@ -6,8 +6,6 @@
 //  Copyright (c) 2013 Dmitry Zakharov. All rights reserved.
 //
 
-#import "CSSample.h"
-
 @implementation CSSample
 
 + (id<CSSample>)instanceForSample:(Class)sampleClass

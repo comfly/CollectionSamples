@@ -6,10 +6,7 @@
 //  Copyright (c) 2013 Dmitry Zakharov. All rights reserved.
 //
 
-#import "CSBasicsSample.h"
-
-#import "CurrentSample.h"
-
+#import "CSAllSamples.h"
 #import "CSViewController.h"
 
 @interface CSViewController ()

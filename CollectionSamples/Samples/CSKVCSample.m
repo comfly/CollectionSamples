@@ -8,4 +8,9 @@
 
 @implementation CSKVCSample
 
+- (void)run
+{
+    [self basicSampleOnArray];
+}
+
 @end

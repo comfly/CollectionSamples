@@ -37,9 +37,9 @@
     struct {
         /* int size; */
         int a, b;
-    } theStruct = { /* .size = sizeof(typeof(theStruct)), */ .a = 10, .b = 20 };
+    } theStruct = { /*.size = sizeof(theStruct), */ .a = 10, .b = 20 };
 
-    int *cArray = calloc(3, sizeof(typeof(*cArray)));
+    int *cArray = calloc(3, sizeof(*cArray));
 
     for (int index = 0; index < 3; ++index) {
         cArray[index] = (index + 1) * 10;

@@ -270,6 +270,11 @@
     for (NSUInteger index = 0, count = [orderedSet count]; index < count; ++index) {
         NSLog(@"Value at index %d is '%@'", index, orderedSet[index]);
     }
+
+    orderedSet[1] = @"Hello";
+    for (NSUInteger index = 0, count = [orderedSet count]; index < count; ++index) {
+        NSLog(@"Value at index %d is '%@'", index, orderedSet[index]);
+    }
 }
 
 @end

@@ -132,19 +132,19 @@
 		10D4CC6F1709D4B600D7AF60 /* Samples */ = {
 			isa = PBXGroup;
 			children = (
+				4744BE82CA73A1427601CF94 /* CSAllSamples.h */,
 				10D4CC731709D4FC00D7AF60 /* CSSample.h */,
 				10D4CC751709D59400D7AF60 /* CSSample.m */,
 				10D4CC701709D4EE00D7AF60 /* CSBasicsSample.h */,
 				10D4CC711709D4EE00D7AF60 /* CSBasicsSample.m */,
-				4744BC137709A131B5A816D9 /* CSNewCollectionsSample.m */,
 				4744B1AF1F930D7D126F1E41 /* CSNewCollectionsSample.h */,
-				4744B6A549532E0F2FC6A30F /* CSCoreFoundationSample.m */,
+				4744BC137709A131B5A816D9 /* CSNewCollectionsSample.m */,
 				4744BCAD23B57511C4ADB228 /* CSCoreFoundationSample.h */,
-				4744BF58276302AB83F65B1D /* CSKVCSample.m */,
+				4744B6A549532E0F2FC6A30F /* CSCoreFoundationSample.m */,
 				4744B09FD0395AF47749CEA3 /* CSKVCSample.h */,
-				4744BE82CA73A1427601CF94 /* CSAllSamples.h */,
-				4744B6C1A6C65C7409AAC6CE /* CSKVCComplaintClass.m */,
+				4744BF58276302AB83F65B1D /* CSKVCSample.m */,
 				4744BA7BC0988388BDBD2247 /* CSKVCComplaintClass.h */,
+				4744B6C1A6C65C7409AAC6CE /* CSKVCComplaintClass.m */,
 			);
 			name = Samples;
 			sourceTree = "<group>";
@@ -347,6 +347,7 @@
 				10D4CC6E1709D0C500D7AF60 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

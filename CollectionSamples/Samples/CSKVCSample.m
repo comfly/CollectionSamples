@@ -19,15 +19,15 @@ static inline NSDate *CSDateFromYearsSince1970(int years)
 @property (nonatomic, strong) NSDate *birthday;
 @property (nonatomic, assign) double income;
 
-@property (nonatomic, copy) NSMutableOrderedSet *relatives;
+@property (nonatomic, copy) NSMutableSet *relatives;
 
 - (instancetype)initWithName:(NSString *)name birthday:(NSDate *)birthday income:(double)income;
 + (instancetype)objectWithName:(NSString *)name birthday:(NSDate *)birthday income:(double)income;
 
-- (id)initWithName:(NSString *)name birthday:(NSDate *)birthday income:(double)income relatives:(NSOrderedSet *)relatives;
-- (NSString *)description;
-+ (id)objectWithName:(NSString *)name birthday:(NSDate *)birthday income:(double)income relatives:(NSOrderedSet *)relatives;
+- (instancetype)initWithName:(NSString *)name birthday:(NSDate *)birthday income:(double)income relatives:(NSSet *)relatives;
++ (instancetype)objectWithName:(NSString *)name birthday:(NSDate *)birthday income:(double)income relatives:(NSSet *)relatives;
 
+- (NSString *)description;
 
 @end
 
@@ -53,6 +53,7 @@ static void CSPrintArrayWithIndex(NSString *formatStringForItem, NSArray *array)
 {
 //    [self runBasicKVCSample];
     [self runKVCOperationsSample];
+//    [self runKVOOperationsSample];
 }
 
 - (void)runBasicKVCSample
@@ -86,16 +87,38 @@ static void CSPrintArrayWithIndex(NSString *formatStringForItem, NSArray *array)
             SO(@"Jack", CSDateFromYearsSince1970(0), 10000.0),
             SO(@"John", CSDateFromYearsSince1970(10), 20000.0),
             SO(@"Mark", CSDateFromYearsSince1970(20), 30000.0),
-            SO(@"Mary", CSDateFromYearsSince1970(30), 40000.0),
+            SO(@"Clark", CSDateFromYearsSince1970(30), 40000.0),
+            SO(@"Mary", CSDateFromYearsSince1970(40), 50000.0),
     ];
 
 //    CSPrintArrayWithIndex(@"Item %d is %@", [sampleItems valueForKey:@"name"]);
 
-    NSPredicate *minButGreaterThanAverageIncome = [NSPredicate predicateWithFormat:@"income = min(subquery($all_incomes := (%@.income), $income, $income > average($all_incomes)))", sampleItems];
-    NSArray *filteredArray = [sampleItems filteredArrayUsingPredicate:minButGreaterThanAverageIncome];
-    NSLog(@"Filtered array: %@", filteredArray);
-//    double resultingItem = [[[sampleItems filteredArrayUsingPredicate:minButGreaterThanAverageIncome] valueForKeyPath:@"@min.income"] doubleValue];
-//    NSLog(@"Minimal but greater than average value is %.2f", resultingItem);
+//    NSArray *items = [sampleItems valueForKeyPath:@"birthday.timeIntervalSinceReferenceDate"];
+//    NSLog(@"Birthday timestamps: %@", items);
+
+    NSPredicate *oldestUpperMiddleClassPerson = [NSPredicate predicateWithFormat:@"birthday = SUBQUERY($people := (%@), $person, $person.income > average($people.income)).@min.birthday", sampleItems];
+    NSArray *filteredArray = [sampleItems filteredArrayUsingPredicate:oldestUpperMiddleClassPerson];
+    CSPrintArrayNoIndex(@"Name of oldest upper middle class person: %@", [filteredArray valueForKey:@"name"]);
+
+    // You cannot build exactly the same expression as the one above. Private headers only.
+
+    // Yet, the sample.
+    NSExpression *nameExpression = [NSExpression expressionForKeyPath:@"name"];
+    NSExpression *letterExpression = [NSExpression expressionForConstantValue:@"J"];
+    NSPredicate *namePredicate = [NSComparisonPredicate predicateWithLeftExpression:nameExpression rightExpression:letterExpression modifier:NSDirectPredicateModifier type:NSBeginsWithPredicateOperatorType options:NSCaseInsensitivePredicateOption | NSDiacriticInsensitivePredicateOption];
+
+    NSExpression *incomeExpression = [NSExpression expressionForKeyPath:@"income"];
+    NSExpression *sumExpression = [NSExpression expressionForConstantValue:@(15000)];
+    NSPredicate *incomePredicate = [NSComparisonPredicate predicateWithLeftExpression:incomeExpression rightExpression:sumExpression modifier:NSDirectPredicateModifier type:NSGreaterThanOrEqualToPredicateOperatorType options:0];
+
+    NSPredicate *andPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[ namePredicate, incomePredicate ]];
+
+    CSPrintArrayNoIndex(@"Item with name starting with \'J\' and salary greater than 15000: %@", [[sampleItems filteredArrayUsingPredicate:andPredicate] valueForKey:@"name"]);
+}
+
+- (void)runKVOOperationsSample
+{
+
 }
 
 @end
@@ -110,12 +133,13 @@ static void CSPrintArrayWithIndex(NSString *formatStringForItem, NSArray *array)
         _name = [name copy];
         _birthday = birthday;
         _income = income;
+        _relatives = [NSMutableSet set];
     }
 
     return self;
 }
 
-- (instancetype)initWithName:(NSString *)name birthday:(NSDate *)birthday income:(double)income relatives:(NSOrderedSet *)relatives
+- (instancetype)initWithName:(NSString *)name birthday:(NSDate *)birthday income:(double)income relatives:(NSSet *)relatives
 {
     self = [super init];
     if (self) {

@@ -51,28 +51,36 @@ static void CSPrintArrayWithIndex(NSString *formatStringForItem, NSArray *array)
 
 - (void)run
 {
-//    [self runBasicKVCSample];
-    [self runKVCOperationsSample];
+    [self runBasicKVCSample];
+//    [self runKVCOperationsSample];
 //    [self runKVOOperationsSample];
 }
 
 - (void)runBasicKVCSample
 {
-    CSKVCComplaintClass *sampleClass = [[CSKVCComplaintClass alloc] init];
+    CSKVCComplaintClass *sampleClass1 = [[CSKVCComplaintClass alloc] init];
 
-    NSMutableArray *items = [sampleClass mutableArrayValueForKey:@"items"];
+    NSMutableArray *items = [sampleClass1 mutableArrayValueForKey:@"items"];
 
     [items addObject:@"Item 1"];
     [items addObject:@"Item 2"];
     [items addObject:@"Item 3"];
 
-    NSLog(@"Items: %@", [sampleClass valueForKey:@"items"]);
+    NSLog(@"Items: %@", [sampleClass1 valueForKey:@"items"]);
 
-    NSMutableSet *set = [sampleClass mutableSetValueForKey:@"set"];
+    NSMutableSet *set = nil;
+    __weak CSKVCComplaintClass *sampleClass;
+    @autoreleasepool {
+        {
+            CSKVCComplaintClass *sampleClass2 = [[CSKVCComplaintClass alloc] init];
+            sampleClass = sampleClass2;
+            set = [sampleClass mutableSetValueForKey:@"set"];
+        }
 
-    [set addObject:@"Set 1"];
-    [set addObject:@"Set 2"];
-    [set addObject:@"Set 3"];
+        [set addObject:@"Set 1"];
+        [set addObject:@"Set 2"];
+        [set addObject:@"Set 3"];
+    }
 
     if ([sampleClass memberOfSet:@"Set 1"]) {
         NSLog(@"There's a member set 1");
@@ -113,7 +121,7 @@ static void CSPrintArrayWithIndex(NSString *formatStringForItem, NSArray *array)
 
     NSPredicate *andPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[ namePredicate, incomePredicate ]];
 
-    CSPrintArrayNoIndex(@"Item with name starting with \'J\' and salary greater than 15000: %@", [[sampleItems filteredArrayUsingPredicate:andPredicate] valueForKey:@"name"]);
+    CSPrintArrayNoIndex(@"Person name with name starting with \'J\' and salary greater than 15000: %@", [[sampleItems filteredArrayUsingPredicate:andPredicate] valueForKey:@"name"]);
 }
 
 - (void)runKVOOperationsSample
@@ -162,7 +170,7 @@ static void CSPrintArrayWithIndex(NSString *formatStringForItem, NSArray *array)
     return [[self alloc] initWithName:name birthday:birthday income:income];
 }
 
-- (void)setRelatives:(NSMutableOrderedSet *)relatives
+- (void)setRelatives:(NSMutableSet *)relatives
 {
     if (_relatives != relatives) {
         _relatives = [relatives mutableCopy];

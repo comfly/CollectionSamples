@@ -24,6 +24,8 @@
 		4744B39A7F42FC5BF02E9EEE /* CSCoreFoundationSample.m in Sources */ = {isa = PBXBuildFile; fileRef = 4744B6A549532E0F2FC6A30F /* CSCoreFoundationSample.m */; };
 		4744B8CFAAF6F4B37B6FF0E5 /* CSNewCollectionsSample.m in Sources */ = {isa = PBXBuildFile; fileRef = 4744BC137709A131B5A816D9 /* CSNewCollectionsSample.m */; };
 		4744BAC0974CA599CE42CF4D /* CSKVCComplaintClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 4744B6C1A6C65C7409AAC6CE /* CSKVCComplaintClass.m */; };
+		AF3F026638E5A184B9FC3DBD /* CSFastEnumerationSample.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3F0E917CF1B2659D29CF28 /* CSFastEnumerationSample.m */; };
+		AF3F0ED9C9562D1EF2E0FC15 /* CSKVOSample.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3F011F20750F4E8F29D44C /* CSKVOSample.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +59,10 @@
 		4744BCAD23B57511C4ADB228 /* CSCoreFoundationSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSCoreFoundationSample.h; path = Samples/CSCoreFoundationSample.h; sourceTree = "<group>"; };
 		4744BE82CA73A1427601CF94 /* CSAllSamples.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSAllSamples.h; path = Samples/CSAllSamples.h; sourceTree = "<group>"; };
 		4744BF58276302AB83F65B1D /* CSKVCSample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CSKVCSample.m; path = Samples/CSKVCSample.m; sourceTree = "<group>"; };
+		AF3F011F20750F4E8F29D44C /* CSKVOSample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CSKVOSample.m; path = Samples/CSKVOSample.m; sourceTree = "<group>"; };
+		AF3F07802239897B7E1A4BC7 /* CSFastEnumerationSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSFastEnumerationSample.h; path = Samples/CSFastEnumerationSample.h; sourceTree = "<group>"; };
+		AF3F0A3EB1C7430D4AA930D2 /* CSKVOSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSKVOSample.h; path = Samples/CSKVOSample.h; sourceTree = "<group>"; };
+		AF3F0E917CF1B2659D29CF28 /* CSFastEnumerationSample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CSFastEnumerationSample.m; path = Samples/CSFastEnumerationSample.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +151,10 @@
 				4744BF58276302AB83F65B1D /* CSKVCSample.m */,
 				4744BA7BC0988388BDBD2247 /* CSKVCComplaintClass.h */,
 				4744B6C1A6C65C7409AAC6CE /* CSKVCComplaintClass.m */,
+				AF3F0E917CF1B2659D29CF28 /* CSFastEnumerationSample.m */,
+				AF3F07802239897B7E1A4BC7 /* CSFastEnumerationSample.h */,
+				AF3F0A3EB1C7430D4AA930D2 /* CSKVOSample.h */,
+				AF3F011F20750F4E8F29D44C /* CSKVOSample.m */,
 			);
 			name = Samples;
 			sourceTree = "<group>";
@@ -225,6 +235,8 @@
 				4744B39A7F42FC5BF02E9EEE /* CSCoreFoundationSample.m in Sources */,
 				4744B38ED4AB80DE16E79CB5 /* CSKVCSample.m in Sources */,
 				4744BAC0974CA599CE42CF4D /* CSKVCComplaintClass.m in Sources */,
+				AF3F026638E5A184B9FC3DBD /* CSFastEnumerationSample.m in Sources */,
+				AF3F0ED9C9562D1EF2E0FC15 /* CSKVOSample.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

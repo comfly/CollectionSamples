@@ -2,3 +2,5 @@
 #import "CSNewCollectionsSample.h"
 #import "CSCoreFoundationSample.h"
 #import "CSKVCSample.h"
+#import "CSKVOSample.h"
+#import "CSFastEnumerationSample.h"

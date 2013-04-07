@@ -6,6 +6,13 @@
 #import "CSKVCSample.h"
 #import "CSKVCComplaintClass.h"
 
+@interface NSArray (CSCollectionOperations)
+
+// http://funwithobjc.tumblr.com/
+- (id)_upcaseJoinForKeyPath:(NSString *)keyPath;
+
+@end
+
 static inline NSDate *CSDateFromYearsSince1970(int years)
 {
     return [NSDate dateWithTimeIntervalSince1970:(years) * (365 * 24 * 60 * 60)];
@@ -51,9 +58,8 @@ static void CSPrintArrayWithIndex(NSString *formatStringForItem, NSArray *array)
 
 - (void)run
 {
-    [self runBasicKVCSample];
-//    [self runKVCOperationsSample];
-//    [self runKVOOperationsSample];
+//    [self runBasicKVCSample];
+    [self runKVCOperationsSample];
 }
 
 - (void)runBasicKVCSample
@@ -122,10 +128,17 @@ static void CSPrintArrayWithIndex(NSString *formatStringForItem, NSArray *array)
     NSPredicate *andPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[ namePredicate, incomePredicate ]];
 
     CSPrintArrayNoIndex(@"Person name with name starting with \'J\' and salary greater than 15000: %@", [[sampleItems filteredArrayUsingPredicate:andPredicate] valueForKey:@"name"]);
-}
 
-- (void)runKVOOperationsSample
-{
+    // Custom operation on array.
+    NSString *upcasedNames = [sampleItems valueForKeyPath:@"@upcaseJoin.name"];
+    NSLog(@"Upcased names are: %@", upcasedNames);
+
+    // Dictionary sample
+    NSDictionary *dictionary = @{
+            @"Key" : sampleItems
+    };
+
+    NSLog(@"Max income of all: %@", [dictionary valueForKeyPath:@"Key.@max.income"]);
 
 }
 
@@ -160,7 +173,7 @@ static void CSPrintArrayWithIndex(NSString *formatStringForItem, NSArray *array)
     return self;
 }
 
-+ (instancetype)objectWithName:(NSString *)name birthday:(NSDate *)birthday income:(double)income relatives:(NSOrderedSet *)relatives
++ (instancetype)objectWithName:(NSString *)name birthday:(NSDate *)birthday income:(double)income relatives:(NSSet *)relatives
 {
     return [[self alloc] initWithName:name birthday:birthday income:income relatives:relatives];
 }
@@ -191,6 +204,23 @@ static void CSPrintArrayWithIndex(NSString *formatStringForItem, NSArray *array)
 - (NSString *)debugDescription
 {
     return [self description];
+}
+
+@end
+
+@implementation NSArray (CSCollectionOperations)
+
+- (id)_upcaseJoinForKeyPath:(NSString *)keyPath
+{
+    NSArray *items = [self valueForKeyPath:keyPath];
+    NSMutableString *result = [NSMutableString string];
+    for (NSString *item in items) {
+        if ([result length] > 0) {
+            [result appendString:@", "];
+        }
+        [result appendString:[item uppercaseString]];
+    }
+    return result;
 }
 
 @end

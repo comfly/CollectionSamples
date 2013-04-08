@@ -6,5 +6,6 @@
 #import <Foundation/Foundation.h>
 
 
-@interface CSFastEnumerationSample : NSObject
+@interface CSFastEnumerationSample : CSSample
+
 @end

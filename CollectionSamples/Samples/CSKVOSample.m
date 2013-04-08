@@ -110,6 +110,9 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
     [self performSelector:(SEL)
         [@{
                 @"array" : [NSValue valueWithPointer:@selector(processArrayChanges:)],
@@ -122,6 +125,8 @@
 //                    @"set" : NSStringFromSelector(@selector(processSetChanges:))
 //            }[keyPath]
 //    ) withObject:change];
+
+#pragma clang diagnostic pop
 }
 
 - (void)processArrayChanges:(NSDictionary *)change

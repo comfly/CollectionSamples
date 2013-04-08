@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		10D4CC4D1709D0C500D7AF60 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10D4CC4C1709D0C500D7AF60 /* UIKit.framework */; };
 		10D4CC4F1709D0C500D7AF60 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10D4CC4E1709D0C500D7AF60 /* Foundation.framework */; };
-		10D4CC511709D0C500D7AF60 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10D4CC501709D0C500D7AF60 /* CoreGraphics.framework */; };
 		10D4CC571709D0C500D7AF60 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 10D4CC551709D0C500D7AF60 /* InfoPlist.strings */; };
 		10D4CC591709D0C500D7AF60 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D4CC581709D0C500D7AF60 /* main.m */; };
 		10D4CC5D1709D0C500D7AF60 /* CSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D4CC5C1709D0C500D7AF60 /* CSAppDelegate.m */; };
@@ -32,7 +31,6 @@
 		10D4CC491709D0C500D7AF60 /* CollectionSamples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollectionSamples.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		10D4CC4C1709D0C500D7AF60 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		10D4CC4E1709D0C500D7AF60 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		10D4CC501709D0C500D7AF60 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		10D4CC541709D0C500D7AF60 /* CollectionSamples-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CollectionSamples-Info.plist"; sourceTree = "<group>"; };
 		10D4CC561709D0C500D7AF60 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		10D4CC581709D0C500D7AF60 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -72,7 +70,6 @@
 			files = (
 				10D4CC4D1709D0C500D7AF60 /* UIKit.framework in Frameworks */,
 				10D4CC4F1709D0C500D7AF60 /* Foundation.framework in Frameworks */,
-				10D4CC511709D0C500D7AF60 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,7 +98,6 @@
 			children = (
 				10D4CC4C1709D0C500D7AF60 /* UIKit.framework */,
 				10D4CC4E1709D0C500D7AF60 /* Foundation.framework */,
-				10D4CC501709D0C500D7AF60 /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

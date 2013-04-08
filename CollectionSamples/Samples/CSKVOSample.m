@@ -17,6 +17,11 @@
 - (void)removeObjectFromArrayAtIndex:(NSUInteger)index;
 - (void)replaceObjectInArrayAtIndex:(NSUInteger)index withObject:(id)object;
 
+
+
+- (void)setSet:(NSMutableOrderedSet *)set;
+- (NSMutableOrderedSet *)set;
+
 - (NSUInteger)countOfSet;
 - (id)memberOfSet:(id)object;
 - (NSEnumerator *)enumeratorOfSet;
@@ -28,7 +33,6 @@
 - (void)removeSetObject:(id)object;
 - (void)removeSet:(NSSet *)set;
 - (void)intersectSet:(NSSet *)objects;
-- (void)setSet:(NSMutableOrderedSet *)set;
 
 - (void)insertObject:(id)object inSetAtIndex:(NSUInteger)index;
 - (void)removeObjectFromSetAtIndex:(NSUInteger)index;
@@ -78,16 +82,18 @@
 {
     [sample addObserver:self forKeyPath:@"set" options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:NULL];
 
-    NSNumber *no = @NO;
+    NSString *value3 = @"Value 3";
     NSMutableOrderedSet *kvcSet = [sample mutableOrderedSetValueForKey:@"set"];
-    [kvcSet addObject:no];
+    [kvcSet addObject:value3];
     [kvcSet addObject:[NSValue valueWithCGPoint:CGPointMake(10.0f, 20.0f)]];
     [((NSMutableSet *) kvcSet[2]) addObject:@"Hello world"];
-    [kvcSet removeObject:no];
+    [kvcSet removeObject:value3];
     [kvcSet intersectSet:[NSSet setWithObjects:@"Value 2", @"Value 1", nil]];
-    [kvcSet minusOrderedSet:[NSOrderedSet orderedSetWithObjects:@"Value 2", @"Value1", nil]];
+    [kvcSet minusOrderedSet:[NSOrderedSet orderedSetWithObjects:@"Value 2", @"Value 4", nil]];
     [kvcSet unionOrderedSet:[NSOrderedSet orderedSetWithObjects:@"Hi", @"Bye", nil]];
 
+
+    NSLog(@"Set values: %@", kvcSet);
     [sample removeObserver:self forKeyPath:@"set" context:NULL];
 }
 
@@ -300,6 +306,23 @@
     [self didChange:NSKeyValueChangeReplacement valuesAtIndexes:[NSIndexSet indexSetWithIndex:index] forKey:@"array"];
 }
 
+
+
+
+- (void)setSet:(NSMutableOrderedSet *)set
+{
+    if (_theSet != set) {
+        [self willChangeValueForKey:@"set"];
+        _theSet = set;
+        [self didChangeValueForKey:@"set"];
+    }
+}
+
+- (NSMutableOrderedSet *)set
+{
+    return _theSet;
+}
+
 - (NSUInteger)countOfSet
 {
     return [_theSet count];
@@ -361,15 +384,6 @@
     [self didChangeValueForKey:@"set" withSetMutation:NSKeyValueIntersectSetMutation usingObjects:objects];
 }
 
-- (void)setSet:(NSMutableOrderedSet *)set
-{
-    if (_theSet != set) {
-        [self willChangeValueForKey:@"set"];
-        _theSet = set;
-        [self didChangeValueForKey:@"set"];
-    }
-}
-
 - (void)insertObject:(id)object inSetAtIndex:(NSUInteger)index1
 {
     [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:[NSIndexSet indexSetWithIndex:index1] forKey:@"set"];
@@ -390,6 +404,5 @@
     [_theSet replaceObjectAtIndex:index1 withObject:object];
     [self didChange:NSKeyValueChangeReplacement valuesAtIndexes:[NSIndexSet indexSetWithIndex:index1] forKey:@"set"];
 }
-
 
 @end

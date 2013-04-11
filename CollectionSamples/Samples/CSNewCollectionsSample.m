@@ -21,13 +21,15 @@
 
 - (void)run
 {
+    RUN_CASE(1);
 //    [self basicPointerArraySample];
 //    [self customFunctionsPointerArraySample];
 //    [self basicHashTableSample];
 //    [self basicMapSample];
 }
 
-- (void)basicPointerArraySample
+// Arrays sample.
+- (void)runSample1
 {
 // Easy-to-create weak pointer array.
     __unused __weak NSString *theItem;
@@ -71,7 +73,9 @@
 //    _objc_autoreleasePoolPrint();
 }
 
-- (void)customFunctionsPointerArraySample
+
+// Custom functions sample.
+- (void)runSample2
 {
     // Commence the fun part.
 
@@ -127,7 +131,8 @@
 //    }
 }
 
-- (void)basicHashTableSample
+// Hashtable sample.
+- (void)runSample3
 {
     @autoreleasepool {
         // Let's go with the strings copying.
@@ -151,6 +156,7 @@
     }
 }
 
+// Map sample.
 - (void)basicMapSample
 {
     @autoreleasepool {
@@ -206,5 +212,6 @@
     return [[self class] objectWithValue:self.value];
 }
 
+// IMPLEMENT HASH AND EQUALSTO: HERE
 
 @end

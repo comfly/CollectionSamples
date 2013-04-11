@@ -25,12 +25,12 @@
 
 - (void)run
 {
-//    [self runArraySample];
-//    [self runDictionarySample];
-//    [self runSetSample];
+    // Samples 3 + 6 + 4 = 13
+    RUN_CASE(1);
 }
 
-- (void)runArraySample
+// Arrays sample.
+- (void)runSample1
 {
     double sampleSeed = 12.0;
 
@@ -93,8 +93,11 @@
     NSLog(@"Array values are: %d, %d, %d", cArray1[0], cArray1[1], cArray1[2]);
 
     free(cArray1);
+}
 
-
+// Specific indexer behavior on adding item at index == count.
+- (void)runSample2
+{
     NSMutableArray *sampleArray = [NSMutableArray array];
     [sampleArray addObject:@10];
     [sampleArray addObject:@20];
@@ -104,37 +107,41 @@
     [sampleArray enumerateObjectsUsingBlock:^(NSNumber *obj, NSUInteger idx, BOOL *stop) {
         NSLog(@"%@", obj);
     }];
+}
 
-
+// Maintain sorted array.
+- (void)runSample3
+{
 #define COUNT_OF_OBJECTS 1000000
 
-//    NSMutableArray *lotsOfObjects = [NSMutableArray arrayWithCapacity:COUNT_OF_OBJECTS];
-//    for (typeof(COUNT_OF_OBJECTS) index = 0; index < COUNT_OF_OBJECTS; index += arc4random() % 2 + 1) {
-//        [lotsOfObjects addObject:@(index)];
-//    }
-//
-//
-//    [lotsOfObjects enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(NSNumber *obj, NSUInteger idx, BOOL *stop) {
-//        if ((idx & 1) == 0) {
-//            NSLog(@"Even");
-//        }
-//    }];
-//
-//    NSUInteger indexOfNewItem = [lotsOfObjects indexOfObject:@50001
-//                                               inSortedRange:NSMakeRange(30000, 20000)
-//                                                     options:NSBinarySearchingInsertionIndex | NSBinarySearchingFirstEqual
-//                                             usingComparator:^NSComparisonResult(NSNumber *value1, NSNumber *value2) {
-//                                                 return [value1 compare:value2];
-//                                             }];
-//    NSLog(@"Index of new Item: %d", indexOfNewItem);
-//    NSLog(@"Item to the left: %d", [lotsOfObjects[indexOfNewItem - 1] unsignedIntegerValue]);
-//    NSLog(@"Item at index: %d", [lotsOfObjects[indexOfNewItem] unsignedIntegerValue]);
-//    NSLog(@"Item of the right: %d", [lotsOfObjects[indexOfNewItem + 1] unsignedIntegerValue]);
+    NSMutableArray *lotsOfObjects = [NSMutableArray arrayWithCapacity:COUNT_OF_OBJECTS];
+    for (typeof(COUNT_OF_OBJECTS) index = 0; index < COUNT_OF_OBJECTS; index += arc4random() % 2 + 1) {
+        [lotsOfObjects addObject:@(index)];
+    }
+
+
+    [lotsOfObjects enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(NSNumber *obj, NSUInteger idx, BOOL *stop) {
+        if ((idx & 1) == 0) {
+            NSLog(@"Even");
+        }
+    }];
+
+    NSUInteger indexOfNewItem = [lotsOfObjects indexOfObject:@50001
+                                               inSortedRange:NSMakeRange(30000, 20000)
+                                                     options:NSBinarySearchingInsertionIndex | NSBinarySearchingFirstEqual
+                                             usingComparator:^NSComparisonResult(NSNumber *value1, NSNumber *value2) {
+                                                 return [value1 compare:value2];
+                                             }];
+    NSLog(@"Index of new Item: %d", indexOfNewItem);
+    NSLog(@"Item to the left: %d", [lotsOfObjects[indexOfNewItem - 1] unsignedIntegerValue]);
+    NSLog(@"Item at index: %d", [lotsOfObjects[indexOfNewItem] unsignedIntegerValue]);
+    NSLog(@"Item of the right: %d", [lotsOfObjects[indexOfNewItem + 1] unsignedIntegerValue]);
 
 #undef COUNT_OF_OBJECTS
 }
 
-- (void)runDictionarySample
+// Dictionary sample
+- (void)runSample4
 {
     CSSampleObject *myObject = [CSSampleObject objectWithValue:10];
 
@@ -153,15 +160,22 @@
 
     // Pay attention to copyWithZone method.
     NSLog(@"Value of myObject: %@", dictionary[myObject]);
-
-    // Usage of those objectForKeyedSubscript:/setObject:forKeyedSubscript:
-//    myObject[@"value"] = @20;
-//    NSLog(@"Value of Value: %@", myObject[@"value"]);
-
     NSLog(@"Button value: %@", dictionary[@((intptr_t) button)]);
-
     NSLog(@"String class value is %@", dictionary[[NSString class]]);
+}
 
+// Subscripting in custom objects sample.
+- (void)runSample5
+{
+    // Usage of those objectForKeyedSubscript:/setObject:forKeyedSubscript:
+    CSSampleObject *myObject = [CSSampleObject objectWithValue:10];
+    myObject[@"value"] = @20;
+    NSLog(@"Value of Value: %@", myObject[@"value"]);
+}
+
+// Shared key sets sample.
+- (void)runSample6
+{
     // Shared Key Set.
     // If you have lots of dictionaries with the same set of keys. It conserves memory,
     // and saves processor ticks preventing behavior to call copy on those keys.
@@ -183,11 +197,26 @@
     otherDictionary1[@"Key1"] = @"Value31";
     otherDictionary1[@"Key2"] = @"Value32";
     otherDictionary1[@10] = @"Value_3_10";
+}
 
-    // KVC to the rescue.
+// KVC with dictionaries.
+- (void)runSample7
+{
+    CSSampleObject *myObject = [CSSampleObject objectWithValue:10];
+
+    // This is dictionaryWithObjects:forKeys:count:.
+    NSDictionary *dictionary = @{
+            @"TheObject" : myObject,
+    };
+
     [dictionary setValue:@300 forKeyPath:@"TheObject.value"];
     NSLog(@"Value which we changed with KVC: %d", ((CSSampleObject *)dictionary[@"TheObject"]).value);
+    NSLog(@"Get value with KVC: %d", [dictionary[@"TheObject.value"] unsignedIntegerValue]);
+}
 
+// Dictionary returns autoreleased value.
+- (void)runSample8
+{
     __weak NSString *item;
     @autoreleasepool {
         const NSString *key = @"ItemKey";
@@ -195,7 +224,7 @@
         NSString *itemValue = [NSString stringWithFormat:@"%@", key];
 
         NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithDictionary:@{
-            key : itemValue,
+                key : itemValue,
         }];
 
         // Obtained value is autoreleased.
@@ -206,8 +235,11 @@
     }
 
     NSLog(@"Item value 2: %@", item);
+}
 
-
+// Macros.
+- (void)runSample9
+{
     NSString *item1 = @"Item1";
     NSString *item2 = @"Item2";
     NSDictionary *dict = NSDictionaryOfVariableBindings(item1, item2);
@@ -216,51 +248,63 @@
     }
 }
 
-- (void)runSetSample
+// Basic set usage.
+- (void)runSample10
 {
     CSSampleObject *item1 = [CSSampleObject objectWithValue:10];
     CSSampleObject *item2 = [CSSampleObject objectWithValue:20];
 
     NSSet *set1 = [NSSet setWithObjects:item1, item2, nil];
-    NSLog(@"Contains Item1: %d", [set1 containsObject:item1]);
+    NSLog(@"1. Contains Item1: %d", [set1 containsObject:item1]);
 
-    item1.value = 30; // Pay attention to hash/isEqual:
-    NSLog(@"Contains Item1: %d", [set1 containsObject:item1]);
+//    item1.value = 30; // Pay attention to hash/isEqual:
+//    NSLog(@"2. Contains Item1: %d", [set1 containsObject:item1]);
+//
+////    CSSampleObject *item3 = [CSSampleObject objectWithValue:20];
+////    NSLog(@"3. Equal object exists: %d", [set1 containsObject:item3]);
+////    NSLog(@"4. Find member: %@", [set1 member:item3]);
+}
 
-    CSSampleObject *item3 = [CSSampleObject objectWithValue:20];
-    NSLog(@"Equal object exists: %d", [set1 containsObject:item3]);
-    NSLog(@"Find member: %@", [set1 member:item3]);
-
-    // KVC is here.
+// KVC sample on sets. Uncomment another in CSSampleObject
+- (void)runSample11
+{
+    CSSampleObject *item1 = [CSSampleObject objectWithValue:10];
+    CSSampleObject *item2 = [CSSampleObject objectWithValue:20];
+    CSSampleObject *item3 = [CSSampleObject objectWithValue:30];
 //    item1.another = item2;
 //    item2.another = item3;
 //    item3.another = nil;
 //    NSLog(@"Values for key are %@", [set1 valueForKey:@"value"]);
 //
+//    item3.value = 40;
 //    item1.another = item2;
 //    item2.another = item3;
-//    item3.value = 40;
 //    item3.another = nil;
 //    NSLog(@"Values for keyPath are %@", [set1 valueForKeyPath:@"another.value"]);
+}
 
+// allObjects === the set contents itself.
+- (void)runSample12
+{
     // Pay attention that #allObjects returns the array of the same objects that are in the set.
     // And, the same objects that possibly you posses. So, be careful when modifying.
-    NSArray *ar = [set1 allObjects];
+    CSSampleObject *item1 = [CSSampleObject objectWithValue:10];
+    CSSampleObject *item2 = [CSSampleObject objectWithValue:20];
+
+    NSSet *set = [NSSet setWithObjects:item1, item2, nil];
+
+    NSArray *ar = [set allObjects];
     ((CSSampleObject *)ar[0]).value = 180;
-    NSLog(@"Values in set are: %@", set1);
+    NSLog(@"Values in set are: %@", set);
     NSLog(@"Value in item1 is: %@", item1);
+}
 
-    // Counted set.
-    NSCountedSet *countedSet = [NSCountedSet set];
-    [countedSet addObject:@10];
-    [countedSet addObject:@10];
-    [countedSet addObject:@10];
-    [countedSet addObject:@20];
-    [countedSet addObject:@20];
-    [countedSet addObject:@30];
-    NSLog(@"There're %d '10's, %d '20's and %d '30's", [countedSet countForObject:@10], [countedSet countForObject:@20], [countedSet countForObject:@30]);
+- (void)runSample13
+{
+    CSSampleObject *item1 = [CSSampleObject objectWithValue:10];
+    CSSampleObject *item2 = [CSSampleObject objectWithValue:20];
+    CSSampleObject *item3 = [CSSampleObject objectWithValue:30];
 
-    // Ordered set.
     NSMutableOrderedSet *orderedSet = [NSMutableOrderedSet orderedSet];
     [orderedSet addObjectsFromArray:@[ item1, item2, item3 ]];
 
@@ -300,6 +344,8 @@
 {
     return [NSString stringWithFormat:@"Value of Copyable Object %d", self.value];
 }
+
+// IMPLEMENT HASH AND ISEQUAL: HERE.
 
 - (id)objectForKeyedSubscript:(NSString *)subscript
 {

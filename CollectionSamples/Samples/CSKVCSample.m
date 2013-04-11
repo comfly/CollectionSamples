@@ -58,11 +58,12 @@ static void CSPrintArrayWithIndex(NSString *formatStringForItem, NSArray *array)
 
 - (void)run
 {
-//    [self runBasicKVCSample];
-    [self runKVCOperationsSample];
+    // Sample cases 4
+    RUN_CASE(1);
 }
 
-- (void)runBasicKVCSample
+// Basic KVC.
+- (void)runSample1
 {
     CSKVCComplaintClass *sampleClass1 = [[CSKVCComplaintClass alloc] init];
 
@@ -74,28 +75,30 @@ static void CSPrintArrayWithIndex(NSString *formatStringForItem, NSArray *array)
 
     NSLog(@"Items: %@", [sampleClass1 valueForKey:@"items"]);
 
-    NSMutableSet *set = nil;
-    __weak CSKVCComplaintClass *sampleClass;
-    @autoreleasepool {
-        {
-            CSKVCComplaintClass *sampleClass2 = [[CSKVCComplaintClass alloc] init];
-            sampleClass = sampleClass2;
-            set = [sampleClass mutableSetValueForKey:@"set"];
-        }
-
-        [set addObject:@"Set 1"];
-        [set addObject:@"Set 2"];
-        [set addObject:@"Set 3"];
-    }
-
-    if ([sampleClass memberOfSet:@"Set 1"]) {
-        NSLog(@"There's a member set 1");
-    } else {
-        NSLog(@"There is no member set 1");
-    }
+    // Proxy has a strong relation to it's host.
+//    NSMutableSet *set = nil;
+//    __weak CSKVCComplaintClass *sampleClass;
+//    @autoreleasepool {
+//        {
+//            CSKVCComplaintClass *sampleClass2 = [[CSKVCComplaintClass alloc] init];
+//            sampleClass = sampleClass2;
+//            set = [sampleClass mutableSetValueForKey:@"set"];
+//        }
+//
+//        [set addObject:@"Set 1"];
+//        [set addObject:@"Set 2"];
+//        [set addObject:@"Set 3"];
+//    }
+//
+//    if ([sampleClass memberOfSet:@"Set 1"]) {
+//        NSLog(@"There's a member set 1");
+//    } else {
+//        NSLog(@"There is no member set 1");
+//    }
 }
 
-- (void)runKVCOperationsSample
+// Collection operators.
+- (void)runSample2
 {
     NSArray *sampleItems = @[
             SO(@"Jack", CSDateFromYearsSince1970(0), 10000.0),
@@ -105,10 +108,29 @@ static void CSPrintArrayWithIndex(NSString *formatStringForItem, NSArray *array)
             SO(@"Mary", CSDateFromYearsSince1970(40), 50000.0),
     ];
 
-//    CSPrintArrayWithIndex(@"Item %d is %@", [sampleItems valueForKey:@"name"]);
+    CSPrintArrayWithIndex(@"Item %d is %@", [sampleItems valueForKey:@"name"]);
 
-//    NSArray *items = [sampleItems valueForKeyPath:@"birthday.timeIntervalSinceReferenceDate"];
-//    NSLog(@"Birthday timestamps: %@", items);
+    NSArray *items = [sampleItems valueForKeyPath:@"birthday.timeIntervalSinceReferenceDate"];
+    NSLog(@"Birthday timestamps: %@", items);
+
+    // Dictionary sample
+    NSDictionary *dictionary = @{
+            @"Key" : sampleItems
+    };
+
+    NSLog(@"Max income of all: %@", [dictionary valueForKeyPath:@"Key.@max.income"]);
+}
+
+// KVC with Predicates.
+- (void)runSample3
+{
+    NSArray *sampleItems = @[
+            SO(@"Jack", CSDateFromYearsSince1970(0), 10000.0),
+            SO(@"John", CSDateFromYearsSince1970(10), 20000.0),
+            SO(@"Mark", CSDateFromYearsSince1970(20), 30000.0),
+            SO(@"Clark", CSDateFromYearsSince1970(30), 40000.0),
+            SO(@"Mary", CSDateFromYearsSince1970(40), 50000.0),
+    ];
 
     NSPredicate *oldestUpperMiddleClassPerson = [NSPredicate predicateWithFormat:@"birthday = SUBQUERY($people := (%@), $person, $person.income > average($people.income)).@min.birthday", sampleItems];
     NSArray *filteredArray = [sampleItems filteredArrayUsingPredicate:oldestUpperMiddleClassPerson];
@@ -128,18 +150,22 @@ static void CSPrintArrayWithIndex(NSString *formatStringForItem, NSArray *array)
     NSPredicate *andPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[ namePredicate, incomePredicate ]];
 
     CSPrintArrayNoIndex(@"Person name with name starting with \'J\' and salary greater than 15000: %@", [[sampleItems filteredArrayUsingPredicate:andPredicate] valueForKey:@"name"]);
+}
+
+// Custom operations.
+- (void)runSample4
+{
+    NSArray *sampleItems = @[
+            SO(@"Jack", CSDateFromYearsSince1970(0), 10000.0),
+            SO(@"John", CSDateFromYearsSince1970(10), 20000.0),
+            SO(@"Mark", CSDateFromYearsSince1970(20), 30000.0),
+            SO(@"Clark", CSDateFromYearsSince1970(30), 40000.0),
+            SO(@"Mary", CSDateFromYearsSince1970(40), 50000.0),
+    ];
 
     // Custom operation on array.
     NSString *upcasedNames = [sampleItems valueForKeyPath:@"@upcaseJoin.name"];
     NSLog(@"Upcased names are: %@", upcasedNames);
-
-    // Dictionary sample
-    NSDictionary *dictionary = @{
-            @"Key" : sampleItems
-    };
-
-    NSLog(@"Max income of all: %@", [dictionary valueForKeyPath:@"Key.@max.income"]);
-
 }
 
 @end

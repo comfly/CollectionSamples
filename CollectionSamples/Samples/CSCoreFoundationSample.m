@@ -14,26 +14,20 @@ static void CSPrintValues(CFTypeRef value, void *context)
 
 - (void)run
 {
-//    [self runBasicArraySample];
-//    [self runBasicDictionarySample];
-    [self runBasicTreeSample];
-
+    // Samples 1 + 3 + 1 = 5
+    RUN_CASE(1);
 }
 
-static CFStringRef CSCopyDescriptionFunction(const void *value)
-{
-    int intValue = (int)value;
-    return (__bridge CFStringRef) [NSString stringWithFormat:@"%d", intValue];
-}
-
-
-- (void)runBasicArraySample
+// CFArray samples.
+- (void)runSample1
 {
     CFArrayRef array = CFArrayCreate(kCFAllocatorDefault, (const void *[]){ CFSTR("String 1"), CFSTR("String 2"), CFSTR("String 3") }, 3, &kCFTypeArrayCallBacks);
     CFArrayApplyFunction(array, CFRangeMake(0, CFArrayGetCount(array)), CSPrintValues, NULL);
 
     // Makes a fixed-sized array with the capacity of 10.
     CFMutableArrayRef mutableArray = CFArrayCreateMutable(kCFAllocatorDefault, 10, &kCFTypeArrayCallBacks);
+
+    extern CFStringRef CSCopyDescriptionFunction(const void *value);
 
     // Array of simple integers.
     CFArrayCallBacks callbacks = kCFTypeArrayCallBacks;
@@ -68,7 +62,14 @@ static CFStringRef CSCopyDescriptionFunction(const void *value)
     CFRelease(mutableArray);
 }
 
-- (void)runBasicDictionarySample
+static CFStringRef CSCopyDescriptionFunction(const void *value)
+{
+    int intValue = (int)value;
+    return (__bridge CFStringRef) [NSString stringWithFormat:@"%d", intValue];
+}
+
+// CFDictionary sample with weak.
+- (void)runSample2
 {
     // Simply array-like dictionary with weak values.
 
@@ -77,7 +78,6 @@ static CFStringRef CSCopyDescriptionFunction(const void *value)
 
     // Weak values.
     CFDictionaryValueCallBacks weakValuesCallbacks = { 0, NULL, NULL, CFCopyDescription, CFEqual };
-
     CFMutableDictionaryRef dictionary = CFDictionaryCreateMutable(NULL, 0, keyCallBacks, &weakValuesCallbacks);
 
     CFStringRef value1 = CFStringCreateWithCString(NULL, "Hello", kCFStringEncodingUTF8);
@@ -97,14 +97,17 @@ static CFStringRef CSCopyDescriptionFunction(const void *value)
 //    CFShow(value);
 
     CFRelease(dictionary);
+}
 
-
+// Copying CFDictionary. __bridging sample.
+- (void)runSample3
+{
     // Keys are strings and values are strings that are copied on Setting.
     extern const CFStringRef CSCopier(CFAllocatorRef allocator, CFStringRef value);
     extern void CSReleaser(CFAllocatorRef allocator, CFStringRef value);
 
     CFDictionaryValueCallBacks copyingValuesDictionary = { 0, (CFDictionaryRetainCallBack) CSCopier, (CFDictionaryReleaseCallBack) CSReleaser, CFCopyDescription, CFEqual };
-    dictionary = CFDictionaryCreateMutable(NULL, 0, &kCFCopyStringDictionaryKeyCallBacks, &copyingValuesDictionary);
+    CFMutableDictionaryRef dictionary = CFDictionaryCreateMutable(NULL, 0, &kCFCopyStringDictionaryKeyCallBacks, &copyingValuesDictionary);
 
     CFMutableStringRef valueBeforeAdding = CFStringCreateMutableCopy(NULL, 7, CFSTR("Value 1"));
     CFDictionarySetValue(dictionary, CFSTR("Key 1"), valueBeforeAdding);
@@ -113,7 +116,7 @@ static CFStringRef CSCopyDescriptionFunction(const void *value)
     NSLog(@"Before adding and after adding are equal: %d", valueBeforeAdding == valueAfterAdding);
     CFRelease(valueBeforeAdding);
 
-    // Create wrapper with preserving behavior pattern. 
+    // Create wrapper with preserving behavior pattern.
     NSMutableString *valueBeforeAdding2 = [NSMutableString stringWithFormat:@"Hello"];
     NSMutableDictionary *wrapper = (__bridge NSMutableDictionary *)dictionary;
     [wrapper setObject:valueBeforeAdding2 forKey:@"Key 2"];
@@ -122,9 +125,13 @@ static CFStringRef CSCopyDescriptionFunction(const void *value)
     NSLog(@"Before adding and after adding are equal: %d", valueBeforeAdding2 == valueAfterAdding2);
 
     CFRelease(dictionary);
+}
 
-    
-    dictionary = CFDictionaryCreateMutable(0, 0, &kCFCopyStringDictionaryKeyCallBacks, NULL);
+
+// NULL values are allowed.
+- (void)runSample4
+{
+    CFMutableDictionaryRef dictionary = CFDictionaryCreateMutable(0, 0, &kCFCopyStringDictionaryKeyCallBacks, NULL);
     CFDictionarySetValue(dictionary, CFSTR("Key"), (CFStringRef)NULL);
     CFStringRef nullValue = CFDictionaryGetValue(dictionary, CFSTR("Key"));
     NSLog(@"Null value is %@", (__bridge NSString *)nullValue ?: @"NULL");
@@ -146,7 +153,7 @@ static void CSReleaser(CFAllocatorRef allocator, CFStringRef value)
     CFRelease(value);
 }
 
-- (void)runBasicTreeSample
+- (void)runSample5
 {
     CFTreeContext context = { 0, (void *) CFSTR("Root"), CFRetain, CFRelease, CFCopyDescription };
     CFTreeRef root = CFTreeCreate(NULL, &context);

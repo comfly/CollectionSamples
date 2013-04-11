@@ -7,6 +7,8 @@
 
 @interface CSKVOComplaintClass : NSObject
 
+- (NSArray *)items;
+
 - (void)setArray:(NSArray *)array;
 - (NSArray *)array;
 
@@ -57,27 +59,30 @@
     sample.dictionary = [NSMutableDictionary dictionary];
     sample.set = [NSMutableOrderedSet orderedSetWithObjects:@"Value 1", @"Value 2", [NSMutableSet setWithObject:@"SetItem1"], nil];
 
-    // Array samples
-    // [self runArraySampleOnSampleObject:sample];
-    [self runSetSampleOnSampleObject:sample];
-//    [self runDictionarySampleOnSampleObject:sample];
+//  [self runArraySampleOnSampleObject:sample];
+//  [self runSetSampleOnSampleObject:sample];
+//  [self runDictionarySampleOnSampleObject:sample];
 }
 
+// Array sample.
 - (void)runArraySampleOnSampleObject:(CSKVOComplaintClass *)sample
 {
     [sample addObserver:self forKeyPath:@"array" options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:NULL];
 
     NSMutableArray *kvcArray = [sample mutableArrayValueForKey:@"array"];
     kvcArray[0] = @NO;
-    [kvcArray addObject:[NSValue valueWithCGPoint:(CGPoint){ 10.0f, 20.0f }]];
+    [kvcArray addObject:[NSValue valueWithCGPoint:CGPointMake(10.0f, 20.0f)]];
     [((NSMutableArray *) kvcArray[2]) addObject:@"Hello world"];
     [kvcArray removeObjectAtIndex:0];
     [sample setArray:@[ @1, @2, @3 ]];
-//        [kvcArray setArray:@[ @1, @2, @3 ]];
+
+    // Also OK the following.
+//    [kvcArray setArray:@[ @1, @2, @3 ]];
 
     [sample removeObserver:self forKeyPath:@"array" context:NULL];
 }
 
+// Set sample.
 - (void)runSetSampleOnSampleObject:(CSKVOComplaintClass *)sample
 {
     [sample addObserver:self forKeyPath:@"set" options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:NULL];
@@ -92,11 +97,11 @@
     [kvcSet minusOrderedSet:[NSOrderedSet orderedSetWithObjects:@"Value 2", @"Value 4", nil]];
     [kvcSet unionOrderedSet:[NSOrderedSet orderedSetWithObjects:@"Hi", @"Bye", nil]];
 
-
     NSLog(@"Set values: %@", kvcSet);
     [sample removeObserver:self forKeyPath:@"set" context:NULL];
 }
 
+// Dictionary sample.
 - (void)runDictionarySampleOnSampleObject:(CSKVOComplaintClass *)sample
 {
     [sample addObserver:self forKeyPath:@"dictionary.someKey" options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:NULL];
@@ -119,12 +124,6 @@
                 @"dictionary.someKey" : [NSValue valueWithPointer:@selector(processDictionaryChanges:)],
                 @"set" : [NSValue valueWithPointer:@selector(processSetChanges:)]
         }[keyPath] pointerValue] withObject:change];
-
-//    [self performSelector:NSSelectorFromString(@{
-//                    @"array" : NSStringFromSelector(@selector(processArrayChanges:)),
-//                    @"set" : NSStringFromSelector(@selector(processSetChanges:))
-//            }[keyPath]
-//    ) withObject:change];
 
 #pragma clang diagnostic pop
 }

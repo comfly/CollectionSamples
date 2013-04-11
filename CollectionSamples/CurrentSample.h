@@ -9,14 +9,17 @@
 #ifndef CollectionSamples_CurrentSample_h
 #define CollectionSamples_CurrentSample_h
 
-#define Basics CSBasicsSample
-#define NewCollections CSNewCollectionsSample
-#define NewCollections CSNewCollectionsSample
-#define KVC CSKVCSample
-#define KVO CSKVOSample
-#define CoreFoundation CSCoreFoundationSample
-#define FastEnumeraton CSFastEnumerationSample
+// CSBasicsSample
+// CSNewCollectionsSample
+// CSKVCSample
+// CSKVOSample
+// CSCoreFoundationSample
+// CSFastEnumerationSample
 
-#define CURRENT_SAMPLE FastEnumeraton
+#define RUN_CASE(x) do { [self runSample##x]; } while(NO)
+
+
+
+#define CURRENT_SAMPLE CSNewCollectionsSample
 
 #endif

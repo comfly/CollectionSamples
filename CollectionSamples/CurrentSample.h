@@ -9,16 +9,17 @@
 #ifndef CollectionSamples_CurrentSample_h
 #define CollectionSamples_CurrentSample_h
 
+#define RUN_CASE(x) do { [self runSample##x]; } while(NO)
+
+
+
+
 // CSBasicsSample
 // CSNewCollectionsSample
 // CSKVCSample
 // CSKVOSample
 // CSCoreFoundationSample
 // CSFastEnumerationSample
-
-#define RUN_CASE(x) do { [self runSample##x]; } while(NO)
-
-
 
 #define CURRENT_SAMPLE CSNewCollectionsSample
 

@@ -265,7 +265,7 @@
 ////    NSLog(@"4. Find member: %@", [set1 member:item3]);
 }
 
-// KVC sample on sets. Uncomment another in CSSampleObject
+// KVC sample on sets. NB: UNCOMMENT 'ANOTHER' IN CSSAMPLEOBJECT
 - (void)runSample11
 {
     CSSampleObject *item1 = [CSSampleObject objectWithValue:10];

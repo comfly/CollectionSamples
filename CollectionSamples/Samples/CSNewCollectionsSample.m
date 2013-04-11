@@ -21,11 +21,8 @@
 
 - (void)run
 {
-    RUN_CASE(1);
-//    [self basicPointerArraySample];
-//    [self customFunctionsPointerArraySample];
-//    [self basicHashTableSample];
-//    [self basicMapSample];
+    // Samples 4
+    RUN_CASE(4);
 }
 
 // Arrays sample.
@@ -36,7 +33,7 @@
     @autoreleasepool {
         NSPointerArray *weakPointerArray = [NSPointerArray weakObjectsPointerArray];
 
-//        NSArray *normalArray;
+        __strong NSArray *normalArray;
         @autoreleasepool {
             NSString *item1 = [NSString stringWithFormat:@"Item %d", 1];
             NSString *item2 = [NSString stringWithFormat:@"Item %d", 2];
@@ -48,29 +45,30 @@
             [weakPointerArray addPointer:(__bridge void *)item3];
 
             // You can add NULLs.
-//            [weakPointerArray addPointer:NULL];
-//            NSLog(@"Last item: %d", (unsigned int) [weakPointerArray pointerAtIndex:[weakPointerArray count] - 1]);
-//            NSLog(@"Count of items before compact: %d", [weakPointerArray count]);
-//            [weakPointerArray compact];
-//            NSLog(@"Count of items after compact: %d", [weakPointerArray count]);
+            [weakPointerArray addPointer:NULL];
+            NSLog(@"Last item: %d", (unsigned int) [weakPointerArray pointerAtIndex:[weakPointerArray count] - 1]);
+            NSLog(@"Count of items before compact: %d", [weakPointerArray count]);
+            [weakPointerArray compact];
+            NSLog(@"Count of items after compact: %d", [weakPointerArray count]);
 
             // You can get an array of strongly-referenced object from weak array.
-//            normalArray = [weakPointerArray allObjects];
+            normalArray = [weakPointerArray allObjects];
         }
 
         {
             NSString *item1 = (__bridge NSString *)[weakPointerArray pointerAtIndex:0];
-            NSLog(@"Item1 = %@", item1);
+            NSLog(@"1. Item1 = %@", item1); // Not NULL because of normalArray is __strong.
         }
 
-//        NSLog(@"Normal Array: %@", normalArray);
+        NSLog(@"__strong NSArray: %@", normalArray); // Array is alive.
 
-//        theItem = (__bridge NSString *)[weakPointerArray pointerAtIndex:0];
-//        NSLog(@"Item1 = %@", theItem);
+        theItem = (__bridge NSString *)[weakPointerArray pointerAtIndex:0];
+        NSLog(@"2. Item1 = %@", theItem);
     }
 
-//    NSLog(@"Item1 = %@, address: %x, and retain count is %d", theItem, (unsigned int)theItem, _objc_rootRetainCount(theItem));
-//    _objc_autoreleasePoolPrint();
+    // Strongs are destroyed. Weaks are NULLed.
+    NSLog(@"Item1 = %@, address: %x, and retain count is %d", theItem, (unsigned int)theItem, _objc_rootRetainCount(theItem));
+    // _objc_autoreleasePoolPrint();
 }
 
 
@@ -98,36 +96,13 @@
 //        [customFuncArray addPointer:items];
 //
 //        int *newItems = [customFuncArray pointerAtIndex:0];
-//
+//        // They are equal, as NO-OP is done when inserting Pointers into the array.
 //        NSLog(@"NewItems is equal to Items: %d", items == newItems);
 //        for (int index = 0; index < 3; ++index) {
 //            NSLog(@"Item at index %d is %d", index, newItems[index]);
 //        }
 //
 //        free(items);
-//    }
-
-//    @autoreleasepool {
-//        // Let's go with C Strings.
-//
-//        NSPointerArray *customFuncArray = [NSPointerArray pointerArrayWithOptions:NSPointerFunctionsMallocMemory | NSPointerFunctionsCStringPersonality];
-//        {
-//            @autoreleasepool {
-//                const char *sampleString = "0123456789";
-//
-//                char *theString = malloc(strlen(sampleString) + 1);
-//                for (int index = 0, count = strlen(sampleString); index < count; ++index) {
-//                    theString[index] = sampleString[index];
-//                }
-//                theString[strlen(sampleString)] = '\0';
-//                [customFuncArray addPointer:theString];
-//
-//                free(theString);
-//            }
-//        }
-//
-//        char *newString = [customFuncArray pointerAtIndex:0];
-//        NSLog(@"New String = %s", newString);
 //    }
 }
 
@@ -147,6 +122,8 @@
             [hashTable addObject:string3];
         }
 
+        // Addresses are not equal as we set up Hash to copy values.
+        // Yet, only one 'String 1' is present as of hashes and equality.
         NSLog(@"Address of item1: %p", (__bridge void *)string1);
         [[hashTable allObjects] enumerateObjectsUsingBlock:^(NSString *value, NSUInteger idx, BOOL *stop) {
             NSLog(@"Address of item from array at index %d: %p; value: %@", idx, (__bridge void *)value, value);
@@ -157,7 +134,7 @@
 }
 
 // Map sample.
-- (void)basicMapSample
+- (void)runSample4
 {
     @autoreleasepool {
         // Let's go with the strings copying.
@@ -176,12 +153,24 @@
             [map setObject:[CSSpecialCopyableObject objectWithValue:30] forKey:key3];
         }
 
+        // The keys are dead.
         NSLog(@"Address of key1: %p", (__bridge void *)key1);
+        NSLog(@"Number of items %d", [map count]);
+
+        NSLog(@"Dictionary representation: ");
         [[map dictionaryRepresentation] enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {
             NSLog(@"Address of key from map %p; value: %@", (__bridge void *) key, key);
             NSLog(@"Address of value from map %p; value: %@", (__bridge void *) value, value);
             NSLog(@"Value for %@ is %@", key, value);
         }];
+
+        NSLog(@"Map representation: ");
+        NSEnumerator *keyEnumerator = [map keyEnumerator];
+
+        NSString *key;
+        while ((key = [keyEnumerator nextObject])) {
+            NSLog(@"Value for Key \'%@\' is \'%@\'", key, [map objectForKey:key]);
+        }
     }
 }
 

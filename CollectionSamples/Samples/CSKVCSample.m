@@ -149,7 +149,7 @@ static void CSPrintArrayWithIndex(NSString *formatStringForItem, NSArray *array)
 
     NSPredicate *andPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[ namePredicate, incomePredicate ]];
 
-    CSPrintArrayNoIndex(@"Person name with name starting with \'J\' and salary greater than 15000: %@", [[sampleItems filteredArrayUsingPredicate:andPredicate] valueForKey:@"name"]);
+    CSPrintArrayNoIndex(@"Person name with name starting with \'J\' and income greater than 15000: %@", [[sampleItems filteredArrayUsingPredicate:andPredicate] valueForKey:@"name"]);
 }
 
 // Custom operations.
